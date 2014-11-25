@@ -9,12 +9,12 @@ Sub Clean()
     Dim PrevDispAlert As Boolean
     Dim PrevScrnUpdat As Boolean
     Dim s As Worksheet
-    
+
     PrevScrnUpdat = Application.ScreenUpdating
     PrevDispAlert = Application.DisplayAlerts
     Application.ScreenUpdating = False
     Application.DisplayAlerts = False
-    
+
     ThisWorkbook.Activate
 
     For Each s In ThisWorkbook.Sheets
@@ -27,7 +27,10 @@ Sub Clean()
             s.Range("A1").Select
         End If
     Next
-    
+
     Application.DisplayAlerts = PrevDispAlert
     Application.ScreenUpdating = PrevScrnUpdat
+
+    Sheets("Macro").Select
+    Range("C7").Select
 End Sub
