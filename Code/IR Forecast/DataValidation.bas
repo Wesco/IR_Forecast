@@ -69,7 +69,7 @@ Private Sub DLC()
         End If
     Next
 
-    'Check columns D:G and make sure they are dates
+    'Check the remaining columns and make sure they are dates
     For i = 5 To TotalCols
         'This will throw an error if the column found is not a date
         TypeName CDate(Cells(2, i).Value)
@@ -85,8 +85,8 @@ Private Sub Unicov()
     If Not ActiveSheet.UsedRange.Rows.Count > 1 Then Exit Sub
     TotalCols = Rows(3).Columns(Columns.Count).End(xlToLeft).Column
 
-    'Check the first 4 column headers
-    For i = 0 To 3
+    'Check the first 5 column headers
+    For i = 0 To 4
         If Cells(6, i + 1).Value <> Array("ITEM", "DESCRIPTION", "UOM", "SUPPLIER_NAME", "SUPPLIER_SITE_NAME")(i) Then
             Err.Raise CustErr.COLNOTFOUND, "Unicov", "Report validation failure."
         End If
