@@ -31,7 +31,26 @@ Sub ValidateForecast(Forecast As Fcst)
 End Sub
 
 Private Sub Campbellsville()
+    Dim TotalCols As Integer
+    Dim dt As Date
+    Dim i As Integer
+
     Sheets("Campbellsville").Select
+    If Not ActiveSheet.UsedRange.Rows.Count > 1 Then Exit Sub
+    TotalCols = Rows(2).Columns(Columns.Count).End(xlToLeft).Column
+
+    'Check the first 3 column headers
+    For i = 0 To 2
+        If Cells(2, i + 1).Value <> Array("Part #", "Part Description", "Supplier Name")(i) Then
+            Err.Raise CustErr.COLNOTFOUND, "Campbellsville", "Report validation failure."
+        End If
+    Next
+
+    'Check columns D:G and make sure they are dates
+    For i = 4 To 7
+        'This will throw an error if the column found is not a date
+        TypeName CDate(Cells(2, i).Value)
+    Next
 End Sub
 
 Private Sub DLC()
