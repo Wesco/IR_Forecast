@@ -54,7 +54,26 @@ Private Sub Campbellsville()
 End Sub
 
 Private Sub DLC()
+    Dim TotalCols As Integer
+    Dim dt As Date
+    Dim i As Integer
+
     Sheets("DLC").Select
+    If Not ActiveSheet.UsedRange.Rows.Count > 1 Then Exit Sub
+    TotalCols = Rows(3).Columns(Columns.Count).End(xlToLeft).Column
+
+    'Check the first 4 column headers
+    For i = 0 To 3
+        If Cells(3, i + 1).Value <> Array("Supplier Site", "Item", "Description", "Primary UOM")(i) Then
+            Err.Raise CustErr.COLNOTFOUND, "DLC", "Report validation failure."
+        End If
+    Next
+
+    'Check columns D:G and make sure they are dates
+    For i = 5 To TotalCols
+        'This will throw an error if the column found is not a date
+        TypeName CDate(Cells(2, i).Value)
+    Next
 End Sub
 
 Private Sub Unicov()
