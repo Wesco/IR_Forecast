@@ -122,7 +122,25 @@ Private Sub MoxBB()
 End Sub
 
 Private Sub Discrete()
+    Dim TotalCols As Integer
+    Dim dt As Date
+    Dim i As Integer
+    
     Sheets("Discrete").Select
+    If Not ActiveSheet.UsedRange.Rows.Count > 1 Then Exit Sub
+    TotalCols = Columns(Columns.Count).End(xlToLeft).Column
+    
+    'Check first 2 column headers
+    For i = 0 To 1
+        If Cells(1, i + 1).Value <> Array("Item", "Description")(i) Then
+            Err.Raise CustErr.COLNOTFOUND, "Unicov", "Report validation failure."
+        End If
+    Next
+    
+    'Check the remaining columns and makre sure they are dates
+    For i = 3 To TotalCols
+        TypeName CDate(Cells(1, i).Value & "-" & Year(Date))
+    Next
 End Sub
 
 Private Sub Wujiang()
