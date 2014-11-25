@@ -77,7 +77,26 @@ Private Sub DLC()
 End Sub
 
 Private Sub Unicov()
+    Dim TotalCols As Integer
+    Dim dt As Date
+    Dim i As Integer
+
     Sheets("Unicov").Select
+    If Not ActiveSheet.UsedRange.Rows.Count > 1 Then Exit Sub
+    TotalCols = Rows(3).Columns(Columns.Count).End(xlToLeft).Column
+
+    'Check the first 4 column headers
+    For i = 0 To 3
+        If Cells(6, i + 1).Value <> Array("ITEM", "DESCRIPTION", "UOM", "SUPPLIER_NAME", "SUPPLIER_SITE_NAME")(i) Then
+            Err.Raise CustErr.COLNOTFOUND, "Unicov", "Report validation failure."
+        End If
+    Next
+
+    'Check the remaining columns and make sure they are dates
+    For i = 5 To TotalCols
+        'This will throw an error if the column found is not a date
+        TypeName CDate(Cells(2, i).Value)
+    Next
 End Sub
 
 Private Sub MoxBB()
